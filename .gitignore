@@ -50,3 +50,6 @@ scripts/__pycache__/
 
 .cursorindexingignore
 .cursor/
+
+local-test-apk/
+build/

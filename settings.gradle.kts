@@ -12,5 +12,10 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "thermal-printer-sdk-android"
-include(":thermal-printer-sdk")
+
+rootProject.name = "thermal-printer-sdk"
+
+val localTestApk = file("local-test-apk/build.gradle.kts")
+if (localTestApk.exists()) {
+    include(":local-test-apk")
+}
