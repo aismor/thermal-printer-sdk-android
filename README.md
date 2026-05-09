@@ -172,4 +172,15 @@ Craches **nativos** (`libepos2.so`) aparecem como tombstone (`DEBUG`, `libc`) �
 
 ## Licença
 
-Define a licença do teu projeto aqui (MIT, Apache 2.0, proprietária, etc.). O driver Epson está sujeito aos termos do **Epson ePOS SDK**.
+### Código deste repositório
+
+Este SDK **não** pode ser **vendido**, **distribuído com fins lucrativos** nem **utilizado por empresas, organizações ou qualquer contexto comercial** sem **consentimento prévio e por escrito do desenvolvedor** (titular dos direitos).
+
+Uso pessoal ou experimental só é permitido nos termos expressamente autorizados pelo desenvolvedor. O texto integral está no ficheiro **`LICENSE`** na raiz do repositório.
+
+*(Esta redação visa clarificar intenções; para contratos formais ou auditorias legais convém rever com um advogado.)*
+
+### Componentes que não são licenciados por este repositório
+
+- **Epson ePOS SDK** (`com.epson.epos2`, `libepos2.so`, etc.): não faz parte da licença do código acima. Quem usa o driver Epson tem de cumprir os **termos do fabricante** (Epson ePOS SDK / documentação e distribuição que a Epson fornecer).
+- **Dependências declaradas no Gradle** (ex.: AndroidX): cada uma segue a sua própria licença; consulta os `NOTICE` / metadados Maven dos artefactos que incluíres na app final.
