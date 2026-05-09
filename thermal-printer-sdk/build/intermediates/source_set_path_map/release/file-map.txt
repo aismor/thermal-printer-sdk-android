@@ -1,0 +1,8 @@
+io.github.aismor.thermalprintersdk.thermal-printer-sdk-pngs-0 /home/pdv/git/aismor/thermal-printer-sdk-android/thermal-printer-sdk/build/generated/res/pngs/release
+io.github.aismor.thermalprintersdk.thermal-printer-sdk-resValues-1 /home/pdv/git/aismor/thermal-printer-sdk-android/thermal-printer-sdk/build/generated/res/resValues/release
+io.github.aismor.thermalprintersdk.thermal-printer-sdk-rs-2 /home/pdv/git/aismor/thermal-printer-sdk-android/thermal-printer-sdk/build/generated/res/rs/release
+io.github.aismor.thermalprintersdk.thermal-printer-sdk-mergeReleaseResources-3 /home/pdv/git/aismor/thermal-printer-sdk-android/thermal-printer-sdk/build/intermediates/incremental/release/mergeReleaseResources/merged.dir
+io.github.aismor.thermalprintersdk.thermal-printer-sdk-mergeReleaseResources-4 /home/pdv/git/aismor/thermal-printer-sdk-android/thermal-printer-sdk/build/intermediates/incremental/release/mergeReleaseResources/stripped.dir
+io.github.aismor.thermalprintersdk.thermal-printer-sdk-merged_res-5 /home/pdv/git/aismor/thermal-printer-sdk-android/thermal-printer-sdk/build/intermediates/merged_res/release
+io.github.aismor.thermalprintersdk.thermal-printer-sdk-main-6 /home/pdv/git/aismor/thermal-printer-sdk-android/thermal-printer-sdk/src/main/res
+io.github.aismor.thermalprintersdk.thermal-printer-sdk-release-7 /home/pdv/git/aismor/thermal-printer-sdk-android/thermal-printer-sdk/src/release/res

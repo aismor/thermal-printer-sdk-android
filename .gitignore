@@ -12,6 +12,7 @@
 /out/
 
 # Ignorar arquivos do Maven e Gradle
+local.properties
 .mvn/
 .gradle/
 !gradle/wrapper/gradle-wrapper.jar
