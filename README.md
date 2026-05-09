@@ -50,7 +50,7 @@ dependencies {
 }
 ```
 
-Num **multi-módulo** onde a biblioteca é o projeto **Gradle raiz** deste clone, o consumidor usa `implementation(project(":"))` (é o que faz `local-test-apk`). Noutro mono-repo podes publicar o AAR ou incluir o projeto com outro nome em `settings.gradle.kts`.
+Num **multi-módulo** onde a biblioteca é o projeto **Gradle raiz** deste clone, o consumidor pode usar `implementation(project(":"))`. Noutro mono-repo podes publicar o AAR ou incluir o projeto com outro nome em `settings.gradle.kts`.
 
 ---
 
@@ -158,7 +158,7 @@ Sem as `.so` corretas, `connect()` pode falhar com erro de classe nativa (`Unsat
 
 O SDK usa **`java.util.logging`** (JUL). Por defeito no Android essas linhas **não** aparecem no Logcat.
 
-Na **app de teste** (`local-test-apk`) existe um encaminhamento JUL → Logcat (`JulToLogcat`), tags **`ThermalPrinterSdk`** (SDK) e **`ThermalTest`** (passos da UI). Erros nas operações de impressão são também capturados e mostrados no painel de texto da app.
+Numa app de exemplo podes usar um encaminhamento JUL → Logcat (por exemplo `JulToLogcat`), tags **`ThermalPrinterSdk`** (SDK) e **`ThermalTest`** (passos da UI). Erros nas operações de impressão podem ser também capturados e mostrados na UI.
 
 Para analisar falhas (incl. Epson) no PC:
 
@@ -167,31 +167,6 @@ adb logcat -s ThermalTest:V ThermalPrinterSdk:V AndroidRuntime:E libc:F DEBUG:F
 ```
 
 Craches **nativos** (`libepos2.so`) aparecem como tombstone (`DEBUG`, `libc`) — usa também `adb shell ls /data/tombstones` em builds debuggable ou o relatório em **Android Studio → Logcat** filtrando pelo pacote `io.github.aismor.thermalprintersdk.test`.
-
----
-
-## APK de teste (módulo local `local-test-apk`)
-
-O diretório `local-test-apk/` na raiz deste repositório **não é versionado** (está no `.gitignore`) e serve só para instalações em máquina de desenvolvimento.
-
-Se existir `local-test-apk/build.gradle.kts`, o `settings.gradle.kts` inclui o módulo **`:local-test-apk`**, que depende da biblioteca na raiz via `implementation(project(":"))` e oferece um ecrã simples (ESC/POS USB e Epson) para validar o SDK.
-
-As bibliotecas Epson de teste ficam **dentro** de `local-test-apk` (cópias locais, sem depender de outro repositório):
-
-- `local-test-apk/libs/epson/` — JARs (`ePOS2.jar`, `ePOSEasySelect.jar`, …)
-- `local-test-apk/src/main/jniLibs/` — `libepos2.so` e `libeposeasyselect.so` (`armeabi-v7a`, `arm64-v8a`)
-
-Para atualizar versões do SDK Epson, substitui manualmente esses ficheiros (licença Epson).
-
-```bash
-./gradlew :local-test-apk:assembleDebug
-```
-
-O APK de debug fica em:
-
-`local-test-apk/build/outputs/apk/debug/local-test-apk-debug.apk`
-
-Quem clona o repositório sem essa pasta continua a conseguir compilar só o SDK; o módulo de teste é opcional.
 
 ---
 

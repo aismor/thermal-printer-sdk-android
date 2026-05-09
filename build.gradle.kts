@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "io.github.aismor"
-version = "1.0.0-SNAPSHOT"
+version = "1.0.0"
 
 android {
     namespace = "io.github.aismor.thermalprintersdk"
