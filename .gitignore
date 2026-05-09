@@ -1,24 +1,51 @@
-# Compiled class file
+# Ignorar arquivos compilados e diretórios do Java
 *.class
-
-# Log file
-*.log
-
-# BlueJ files
-*.ctxt
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files #
 *.jar
 *.war
-*.nar
 *.ear
-*.zip
-*.tar.gz
-*.rar
+./main
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-replay_pid*
+# Ignorar diretórios do Java
+/bin/
+/build/
+/target/
+/out/
+
+# Ignorar arquivos do Maven e Gradle
+.mvn/
+.gradle/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Ignorar arquivos de configuração do IDE
+*.iml
+*.ipr
+*.iwsgit 
+/.idea/
+/.vscode/
+/.specstory/
+*.code-workspace
+
+# Ignorar arquivos do Go
+/bin/
+/pkg/
+
+# Arquivos compilados do Go
+*.exe
+*.dll
+*.so
+*.dylib
+*.a
+*.o
+
+
+# Ignorar cache do Go
+/.cache/
+__debug*
+./config/.env
+config/.env
+
+scripts/__pycache__/
+*.log
+
+.cursorindexingignore
+.cursor/
