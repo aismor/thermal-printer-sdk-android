@@ -4,6 +4,10 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
     }
+    plugins {
+        id("com.android.library") version "7.4.2"
+        id("com.android.application") version "7.4.2"
+    }
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
@@ -14,8 +18,3 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "thermal-printer-sdk"
-
-val localTestApk = file("local-test-apk/build.gradle.kts")
-if (localTestApk.exists()) {
-    include(":local-test-apk")
-}
