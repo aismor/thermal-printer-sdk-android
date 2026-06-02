@@ -14,6 +14,7 @@ import io.github.aismor.thermalprintersdk.api.PrinterDriver;
 import io.github.aismor.thermalprintersdk.api.PrinterStatus;
 import io.github.aismor.thermalprintersdk.connection.usb.UsbBulkPrinterConnection;
 import io.github.aismor.thermalprintersdk.escpos.EscPosCommands;
+import io.github.aismor.thermalprintersdk.escpos.EscPosPrintContent;
 import io.github.aismor.thermalprintersdk.escpos.EscPosQrEncoder;
 
 public final class UsbEscPosPrinterDriver implements PrinterDriver {
@@ -24,6 +25,7 @@ public final class UsbEscPosPrinterDriver implements PrinterDriver {
 
     private PrinterStatus lastStatus = PrinterStatus.DISCONNECTED;
     private String lastError;
+    private boolean escPosLayoutApplied;
 
     public UsbEscPosPrinterDriver(@NonNull Context context, int vendorId, int productId) {
         this.usb = new UsbBulkPrinterConnection(context, vendorId, productId);
@@ -55,6 +57,9 @@ public final class UsbEscPosPrinterDriver implements PrinterDriver {
         PrinterStatus s = usb.connect();
         lastStatus = s;
         lastError = usb.getLastErrorMessage();
+        if (s == PrinterStatus.CONNECTED) {
+            escPosLayoutApplied = false;
+        }
         LOG.info(() -> "connect → " + s + (lastError != null ? (" | " + lastError) : ""));
         return s;
     }
@@ -62,6 +67,7 @@ public final class UsbEscPosPrinterDriver implements PrinterDriver {
     @Override
     public void disconnect() {
         usb.disconnect();
+        escPosLayoutApplied = false;
         lastStatus = PrinterStatus.DISCONNECTED;
         LOG.info(() -> "disconnect");
     }
@@ -76,13 +82,18 @@ public final class UsbEscPosPrinterDriver implements PrinterDriver {
         if (!ensureReady()) {
             return;
         }
+        String payloadText = EscPosPrintContent.sanitize(text);
+        if (payloadText.isEmpty()) {
+            LOG.fine(() -> "printText ignorado: sem conteúdo após sanitização");
+            return;
+        }
         ByteArrayOutputStream buf = new ByteArrayOutputStream();
         try {
-            buf.write(EscPosCommands.INIT);
-            buf.write(EscPosCommands.align(0));
-            buf.write(EscPosCommands.bold(false));
-            buf.write(EscPosCommands.textToBytes(text != null ? text : "", EscPosCommands.DEFAULT_CHARSET));
-            buf.write(EscPosCommands.lineFeed());
+            appendEscPosLayoutIfNeeded(buf);
+            buf.write(EscPosCommands.textToBytes(payloadText, EscPosCommands.DEFAULT_CHARSET));
+            if (!payloadText.endsWith("\n")) {
+                buf.write(EscPosCommands.lineFeed());
+            }
         } catch (IOException ignored) {
         }
         byte[] payload = buf.toByteArray();
@@ -100,7 +111,7 @@ public final class UsbEscPosPrinterDriver implements PrinterDriver {
         }
         ByteArrayOutputStream buf = new ByteArrayOutputStream();
         try {
-            buf.write(EscPosCommands.INIT);
+            appendEscPosLayoutIfNeeded(buf);
             buf.write(EscPosCommands.align(1));
             buf.write(EscPosQrEncoder.buildQrCode(content));
             buf.write(EscPosCommands.lineFeed());
@@ -119,7 +130,7 @@ public final class UsbEscPosPrinterDriver implements PrinterDriver {
         }
         ByteArrayOutputStream buf = new ByteArrayOutputStream();
         try {
-            buf.write(EscPosCommands.INIT);
+            appendEscPosLayoutIfNeeded(buf);
             buf.write(EscPosCommands.align(1));
             buf.write(EscPosCommands.bold(true));
             buf.write(EscPosCommands.textToBytes("TESTE ESC/POS USB\n", EscPosCommands.DEFAULT_CHARSET));
@@ -207,5 +218,16 @@ public final class UsbEscPosPrinterDriver implements PrinterDriver {
         lastError = usb.getLastErrorMessage();
         lastStatus = PrinterStatus.ERROR_TRANSFER;
         LOG.severe(() -> "Falha envio: " + lastError);
+    }
+
+    private void appendEscPosLayoutIfNeeded(ByteArrayOutputStream buf) throws IOException {
+        if (escPosLayoutApplied) {
+            return;
+        }
+        buf.write(EscPosCommands.INIT);
+        buf.write(EscPosCommands.leftMarginDots(EscPosCommands.DEFAULT_LEFT_MARGIN_DOTS));
+        buf.write(EscPosCommands.align(0));
+        buf.write(EscPosCommands.bold(false));
+        escPosLayoutApplied = true;
     }
 }

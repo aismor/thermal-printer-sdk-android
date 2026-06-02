@@ -13,8 +13,15 @@ public final class EscPosCommands {
 
     public static final byte[] INIT = new byte[]{ESC, '@'};
 
+    public static final int DEFAULT_LEFT_MARGIN_DOTS = 0;
+
     public static byte[] align(int n) {
         return new byte[]{ESC, 'a', (byte) (n & 0xFF)};
+    }
+
+    public static byte[] leftMarginDots(int dots) {
+        int d = Math.max(0, Math.min(dots, 65535));
+        return new byte[]{GS, 'L', (byte) (d & 0xFF), (byte) ((d >> 8) & 0xFF)};
     }
 
     public static byte[] bold(boolean on) {

@@ -21,6 +21,7 @@ import io.github.aismor.thermalprintersdk.api.PrinterDriver;
 import io.github.aismor.thermalprintersdk.api.PrinterStatus;
 import io.github.aismor.thermalprintersdk.config.EpsonPrinterConfig;
 import io.github.aismor.thermalprintersdk.connection.usb.UsbBulkPrinterConnection;
+import io.github.aismor.thermalprintersdk.escpos.EscPosPrintContent;
 
 public final class EpsonPrinterDriver implements PrinterDriver {
 
@@ -173,8 +174,13 @@ public final class EpsonPrinterDriver implements PrinterDriver {
             int langEn = getStaticIntField(printerObj.getClass(), "LANG_EN", 1);
             addTextLang.invoke(printerObj, langEn);
 
+            String payloadText = EscPosPrintContent.sanitize(text);
+            if (payloadText.isEmpty()) {
+                LOG.fine(() -> "printText ignorado: sem conteúdo após sanitização");
+                return;
+            }
             Method addText = printerObj.getClass().getMethod("addText", String.class);
-            addText.invoke(printerObj, text != null ? text : "");
+            addText.invoke(printerObj, payloadText);
             sendDataAndClear();
         } catch (Throwable t) {
             fail("Falha printText Epson", t);

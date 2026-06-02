@@ -178,8 +178,6 @@ Este SDK **não** pode ser **vendido**, **distribuído com fins lucrativos** nem
 
 Uso pessoal ou experimental só é permitido nos termos expressamente autorizados pelo desenvolvedor. O texto integral está no ficheiro **`LICENSE`** na raiz do repositório.
 
-*(Esta redação visa clarificar intenções; para contratos formais ou auditorias legais convém rever com um advogado.)*
-
 ### Componentes que não são licenciados por este repositório
 
 - **Epson ePOS SDK** (`com.epson.epos2`, `libepos2.so`, etc.): não faz parte da licença do código acima. Quem usa o driver Epson tem de cumprir os **termos do fabricante** (Epson ePOS SDK / documentação e distribuição que a Epson fornecer).
